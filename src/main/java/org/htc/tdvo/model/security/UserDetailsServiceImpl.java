@@ -1,15 +1,14 @@
 package org.htc.tdvo.model.security;
 
 
+import static java.util.Collections.emptyList;
+
+import org.htc.tdvo.model.persistence.repositories.UserRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import org.htc.tdvo.model.persistence.repositories.UserRepository;
-
-import static java.util.Collections.emptyList;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -19,12 +18,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.applicationUserRepository = applicationUserRepository;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    	org.htc.tdvo.model.persistence.User applicationUser = applicationUserRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String personummer) throws UsernameNotFoundException {
+    	org.htc.tdvo.model.persistence.User applicationUser = applicationUserRepository.findByPersonalNumber(  personummer);
         if (applicationUser == null) {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException(personummer);
         }
-        return new User(applicationUser.getUsername(), applicationUser.getPassword(), emptyList());
-    }
+        return new User(applicationUser.getPersonalNumber(), applicationUser.getPersonalNumber(), emptyList());
+    } 
 }
