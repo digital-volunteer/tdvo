@@ -7,7 +7,7 @@ import javax.annotation.PostConstruct;
 import org.apache.commons.lang3.StringUtils;
 import org.htc.tdvo.model.persistence.BankIdSession;
 import org.htc.tdvo.model.persistence.User;
-import org.htc.tdvo.model.persistence.repositories.RoleRepository;
+import org.htc.tdvo.model.persistence.repositories.NeedsRepository;
 import org.htc.tdvo.model.persistence.repositories.UserRepository;
 import org.htc.tdvo.model.requests.CreateUserRequest;
 import org.htc.tdvo.model.requests.UpdateUserAddress;
@@ -43,7 +43,7 @@ public class UserController {
 	private UserRepository userRepository;
 
 	@Autowired
-	private RoleRepository roleRepository;
+	private NeedsRepository roleRepository;
 	
     @Autowired
     private Environment env;
