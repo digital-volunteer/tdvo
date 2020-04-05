@@ -10,4 +10,7 @@ public class SecurityConstants {
     public static final String SESSION_URL = "/api/user/*";
     public static final String UPDATE_PROFILE_URL = "/api/user/updateProfile";
     public static final String UPDATE_DETAILS_URL = "/api/user/updateDetails";
+    public static final String UPDATE_USER_PROFILE_DETAILS_URL = "/api/user/updateProfileDetails";
+   
+    
 }

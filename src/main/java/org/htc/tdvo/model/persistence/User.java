@@ -43,28 +43,7 @@ public class User {
 	@Column(nullable = true)
 	@JsonProperty
 	private String surname;
-
-//	@Column(nullable = false)
-//	@JsonProperty
-//	private String ipAddress;
-//	 
-//
-//	@Column(nullable = true)
-//	@JsonProperty
-//	private String notBefore;
-//
-//	@Column(nullable = true)
-//	@JsonProperty
-//	private String notAfter;
-//
-//	@Column(nullable = true)
-//	@JsonProperty
-//	private String signature;
-//
-//	@Column(nullable = true)
-//	@JsonProperty
-//	private String ocspResponse;
-	
+ 
 	
 	@Column(nullable = true)
 	@JsonProperty
@@ -73,6 +52,19 @@ public class User {
 	@Column(nullable = true)
 	@JsonProperty
 	private String email;	
+	
+	@Column(nullable = true)
+	@JsonProperty
+	private String address;	
+	
+	@Column(nullable = true)
+	@JsonProperty
+	private String zipcode;	
+	
+	@Column(nullable = true)
+	@JsonProperty
+	private String city;	
+	
 	
 	@Column(nullable = true)
 	@JsonProperty
@@ -240,8 +232,31 @@ public class User {
 
 	public void setUserUpdated(Timestamp userUpdated) {
 		this.userUpdated = userUpdated;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getZipcode() {
+		return zipcode;
+	}
+
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	} 
-	
-	
+	 
 
 }

@@ -5,6 +5,7 @@ import static org.htc.tdvo.model.security.SecurityConstants.SESSION_URL;
 import static org.htc.tdvo.model.security.SecurityConstants.SIGN_UP_URL;
 import static org.htc.tdvo.model.security.SecurityConstants.UPDATE_DETAILS_URL;
 import static org.htc.tdvo.model.security.SecurityConstants.UPDATE_PROFILE_URL;
+import static org.htc.tdvo.model.security.SecurityConstants.UPDATE_USER_PROFILE_DETAILS_URL;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -32,9 +33,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
-                .antMatchers(HttpMethod.GET, SESSION_URL).permitAll()
+                .antMatchers(HttpMethod.GET,  SESSION_URL).permitAll()
                 .antMatchers(HttpMethod.POST, UPDATE_PROFILE_URL).permitAll()
                 .antMatchers(HttpMethod.POST, UPDATE_DETAILS_URL).permitAll()
+                .antMatchers(HttpMethod.POST, UPDATE_USER_PROFILE_DETAILS_URL).permitAll()
+                
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))

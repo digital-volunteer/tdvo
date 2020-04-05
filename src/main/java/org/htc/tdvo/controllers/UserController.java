@@ -1,20 +1,16 @@
 package org.htc.tdvo.controllers;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.StringUtils;
 import org.htc.tdvo.model.persistence.BankIdSession;
-import org.htc.tdvo.model.persistence.Role;
 import org.htc.tdvo.model.persistence.User;
 import org.htc.tdvo.model.persistence.repositories.RoleRepository;
 import org.htc.tdvo.model.persistence.repositories.UserRepository;
-import org.htc.tdvo.model.requests.BankIdResponse;
 import org.htc.tdvo.model.requests.CreateUserRequest;
+import org.htc.tdvo.model.requests.UpdateUserAddress;
 import org.htc.tdvo.model.requests.UpdateUserDetails;
 import org.htc.tdvo.model.requests.UpdateUserRequest;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
@@ -25,7 +21,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,10 +28,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import reactor.core.publisher.Flux;
  
 
 @RestController
@@ -47,8 +38,7 @@ public class UserController {
 	String URI 						= "https://client-test.grandid.com";
 	String LOGIN_URI 				= "https://login-test.grandid.com/";
 	
-		
-		
+  
 	@Autowired
 	private UserRepository userRepository;
 
@@ -74,21 +64,31 @@ public class UserController {
     	client2 = WebClient.builder().baseUrl(LOGIN_URI).defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
     			.build();
     }
- 
-	@GetMapping("/id/{id}")
-	public ResponseEntity<User> findById(@PathVariable Long id) {
-
-		Optional<User> user = userRepository.findById(id);
-//		if ( user.isEmpty() ) {
-//			log.error("User with id {} not found." , id );
-//		}
-
-		return ResponseEntity.of(user);
-	}
-
+  
 	@GetMapping("/{session}")
 	public ResponseEntity<User> findBySessionId(@PathVariable String session) {
 		User user = userRepository.findBysessionId(  session );
+		return user == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
+	}
+	@PostMapping("/updateProfileDetails")
+	public ResponseEntity<User> saveByUserProfileRequest(@RequestBody UpdateUserAddress request) {
+		User user = userRepository.findBysessionId(  request.getSessionId() );
+		
+		if ( user != null ) {
+			user.setGivenName(request.getFirstName() );
+			user.setSurname( request.getLastName() );
+			user.setPhoneNumber( request.getPhoneNumber() );
+			user.setEmail( request.getEmail());
+			user.setAddress( request.getAddress());
+			user.setZipcode( request.getZipcode());
+			user.setCity( request.getCity()  );
+		 
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			user.setUserUpdated(timestamp);
+			userRepository.save(user);
+			log.info("User {} updated." , user.getPersonalNumber());
+		}
+	
 		return user == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
 	}
 	
@@ -100,7 +100,7 @@ public class UserController {
 			user.setGivenName(request.getFirstName() );
 			user.setSurname( request.getLastName() );
 			user.setPhoneNumber( request.getPhoneNumber() );
-			user.setEmail( request.getPhoneNumber() );
+			user.setEmail( request.getEmail()  );
 			
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			user.setUserUpdated(timestamp);
@@ -134,14 +134,9 @@ public class UserController {
 	}
 	
 	 
-	@JsonProperty
-	private boolean artist;
-	
-	@JsonProperty
-	private boolean aceptConditions;
 	 
 	
-	@PostMapping("/create")
+	@PostMapping(path="/create" , consumes = "application/json", produces = "application/json")
 	public ResponseEntity<User> createUser(@RequestBody CreateUserRequest createUserRequest) {
 		
 	
@@ -195,6 +190,8 @@ public class UserController {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		user.setUserUpdated(timestamp);
 		user.setUserCreated( timestamp );
+		user.setVolunteer(  createUserRequest.isVolunteer());
+		
 		userRepository.save(user);
 		log.info("User {} added." , user.getPersonalNumber());
 		return ResponseEntity.ok(user);
