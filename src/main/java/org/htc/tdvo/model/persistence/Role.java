@@ -21,18 +21,18 @@ public class Role {
 	private Long id;
 	
 	 
-	@OneToOne(mappedBy = "role")
-	@JsonProperty
-    private User user;
-	 
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
+//	@OneToOne(mappedBy = "role")
+//	@JsonProperty
+//    private User user;
+//	 
+//
+//	public User getUser() {
+//		return user;
+//	}
+//
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
 
 	public Long getId() {
 		return id;

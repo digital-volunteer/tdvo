@@ -26,35 +26,125 @@ public class User {
 	
 	@Column(nullable = false, unique = true)
 	@JsonProperty
-	private String username;
-	
-
-	@JsonProperty(access=Access.WRITE_ONLY)
-	@Column(nullable = false)
-	private String password;
-
-	
-	
-	public String getPassword() {
-		return password;
+	private String personalNumber;
+	  
+	public String getPersonalNumber() {
+		return personalNumber;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPersonalNumber(String personalNumber) {
+		this.personalNumber = personalNumber;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id", referencedColumnName = "id")
-	@JsonIgnore
-    private Role role;
+	@Column(nullable = false )
+	@JsonProperty
+	private String name;
 	
-	public Role getRole() {
-		return role;
+	@Column(nullable = false )
+	@JsonProperty
+	private String givenName;
+	
+	@Column(nullable = false )
+	@JsonProperty
+	private String surname;
+
+	@Column(nullable = false )
+	@JsonProperty
+	private String ipAddress;
+
+	@Column(nullable = true )
+	@JsonProperty
+	private String notBefore;
+	
+	@Column(nullable = true )
+	@JsonProperty
+	private String notAfter;
+
+	@Column(nullable = true )
+	@JsonProperty
+	private String signature;
+	
+
+	@Column(nullable = true )
+	@JsonProperty
+	private String ocspResponse;
+		 
+	public String getName() {
+		return name;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	public void setName(String name) {
+		this.name = name;
 	}
+
+	public String getGivenName() {
+		return givenName;
+	}
+
+	public void setGivenName(String givenName) {
+		this.givenName = givenName;
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+
+	public String getIpAddress() {
+		return ipAddress;
+	}
+
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
+	}
+
+	public String getNotBefore() {
+		return notBefore;
+	}
+
+	public void setNotBefore(String notBefore) {
+		this.notBefore = notBefore;
+	}
+
+	public String getNotAfter() {
+		return notAfter;
+	}
+
+	public void setNotAfter(String notAfter) {
+		this.notAfter = notAfter;
+	}
+
+	public String getSignature() {
+		return signature;
+	}
+
+	public void setSignature(String signature) {
+		this.signature = signature;
+	}
+
+	public String getOcspResponse() {
+		return ocspResponse;
+	}
+
+	public void setOcspResponse(String ocspResponse) {
+		this.ocspResponse = ocspResponse;
+	}
+
+//	@OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "role_id", referencedColumnName = "id")
+//	@JsonIgnore
+//    private Role role;
+//	
+//	public Role getRole() {
+//		return role;
+//	}
+//
+//	public void setRole(Role role) {
+//		this.role = role;
+//	}
 
 	public long getId() {
 		return id;
@@ -64,14 +154,7 @@ public class User {
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	
+ 
 	
 	
 }
