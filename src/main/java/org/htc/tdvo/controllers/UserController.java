@@ -1,5 +1,8 @@
 package org.htc.tdvo.controllers;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Optional;
 
 import javax.annotation.PostConstruct;
@@ -98,6 +101,9 @@ public class UserController {
 			user.setSurname( request.getLastName() );
 			user.setPhoneNumber( request.getPhoneNumber() );
 			user.setEmail( request.getPhoneNumber() );
+			
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			user.setUserUpdated(timestamp);
 			userRepository.save(user);
 			log.info("User {} updated." , user.getPersonalNumber());
 		}
@@ -117,6 +123,8 @@ public class UserController {
 			user.setCanDoShopping( request.isCanDoShopping() );
 			user.setTravelByBicycle(  request.isTravelByBicycle());
 			user.setArtist(  request.isArtist() );
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			user.setUserUpdated(timestamp);
 			
 			userRepository.save(user);
 			log.info("User {} updated." , user.getPersonalNumber());
@@ -183,6 +191,10 @@ public class UserController {
 		}
 		 
 		user.setSessionId(session.getSessionId() );
+		
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		user.setUserUpdated(timestamp);
+		user.setUserCreated( timestamp );
 		userRepository.save(user);
 		log.info("User {} added." , user.getPersonalNumber());
 		return ResponseEntity.ok(user);

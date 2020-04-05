@@ -1,5 +1,7 @@
 package org.htc.tdvo.model.persistence;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,6 +23,10 @@ public class User {
 	@Column(nullable = false, unique = true)
 	@JsonProperty
 	private String personalNumber;
+	
+	@Column(nullable = true)
+	@JsonProperty
+	private boolean volunteer;
 
 	@Column(nullable = false)
 	@JsonProperty
@@ -88,6 +94,15 @@ public class User {
 	@JsonProperty
 	private boolean artist;
 	
+	
+	@Column(nullable = false)
+	@JsonProperty
+	private Timestamp userCreated;
+	
+	@Column(nullable = false)
+	@JsonProperty
+	private Timestamp userUpdated;
+ 	
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -169,9 +184,7 @@ public class User {
 
 	public void setSurname(String surname) {
 		this.surname = surname;
-	}
-
-	 
+	} 
  
 	public long getId() {
 		return id;
@@ -203,6 +216,32 @@ public class User {
 
 	public void setStuffAndLeave(boolean stuffAndLeave) {
 		this.stuffAndLeave = stuffAndLeave;
+	}
+
+	public boolean isVolunteer() {
+		return volunteer;
+	}
+
+	public void setVolunteer(boolean volunteer) {
+		this.volunteer = volunteer;
+	}
+
+	public Timestamp getUserCreated() {
+		return userCreated;
+	}
+
+	public void setUserCreated(Timestamp userCreated) {
+		this.userCreated = userCreated;
+	}
+
+	public Timestamp getUserUpdated() {
+		return userUpdated;
+	}
+
+	public void setUserUpdated(Timestamp userUpdated) {
+		this.userUpdated = userUpdated;
 	} 
+	
+	
 
 }
